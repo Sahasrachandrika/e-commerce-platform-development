@@ -8,18 +8,24 @@ import { Star, ShoppingCart, Heart } from "lucide-react"
 import Link from "next/link"
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  const product = PRODUCTS.find((p) => p.id === Number.parseInt(params.id))
+  const productId = Number.parseInt(params.id, 10)
+  const product = PRODUCTS.find((p) => p.id === productId)
+
   const [quantity, setQuantity] = useState(1)
   const [added, setAdded] = useState(false)
   const [liked, setLiked] = useState(false)
 
   if (!product) {
+    console.log("[v0] Product not found. ID:", productId, "Available IDs:", PRODUCTS.map((p) => p.id).slice(0, 5))
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="max-w-7xl mx-auto px-4 py-12 text-center">
           <h1 className="text-2xl font-bold mb-4">Product not found</h1>
-          <Link href="/products" className="text-primary hover:underline">
+          <p className="text-muted-foreground mb-6">
+            The product you're looking for doesn't exist or has been removed.
+          </p>
+          <Link href="/products" className="text-primary hover:underline font-semibold">
             Back to products
           </Link>
         </div>
